@@ -24,6 +24,7 @@ from worklang.corpus_b import (
     split_traces,
     write_corpus,
 )
+from worklang.leadpipe_synthesiser import SynthesiserError
 from worklang.schema import Trace, trace_from_json, trace_to_json
 from worklang.tokenizer import decode_trace, encode_trace
 
@@ -32,7 +33,12 @@ CORPUS_DIR = Path(__file__).resolve().parents[1] / "corpus" / "source-b"
 
 @pytest.fixture(scope="module")
 def traces():
-    return build_corpus_b()
+    try:
+        return build_corpus_b()
+    except SynthesiserError:
+        pytest.skip(
+            "no LeadPipe checkout available; set WORKLANG_LEADPIPE_ROOT"
+        )
 
 
 @pytest.fixture(scope="module")
@@ -82,7 +88,12 @@ def test_split_is_group_aware(splits, traces):
 
 
 def test_group_of_shapes():
-    traces = build_corpus_b()
+    try:
+        traces = build_corpus_b()
+    except SynthesiserError:
+        pytest.skip(
+            "no LeadPipe checkout available; set WORKLANG_LEADPIPE_ROOT"
+        )
     walk = next(t for t in traces if t.agent == "leadpipe-synthesiser")
     anchor = next(t for t in traces if t.agent == "demo-walkthrough")
     assert group_of(walk) == ":".join(walk.trace_id.split(":")[:2])

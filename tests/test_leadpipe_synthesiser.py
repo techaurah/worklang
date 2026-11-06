@@ -12,6 +12,7 @@ import pytest
 from worklang.leadpipe_synthesiser import (
     WALKTHROUGH_GROUP,
     SeedLead,
+    SynthesiserError,
     channel_for_source,
     default_leadpipe_root,
     load_leadpipe,
@@ -38,12 +39,22 @@ ALL_SOURCES = {
 
 @pytest.fixture(scope="module")
 def lp():
-    return load_leadpipe(ROOT)
+    try:
+        return load_leadpipe(ROOT)
+    except SynthesiserError:
+        pytest.skip(
+            "no LeadPipe checkout available; set WORKLANG_LEADPIPE_ROOT"
+        )
 
 
 @pytest.fixture(scope="module")
 def leads() -> list[SeedLead]:
-    return load_seed_leads(ROOT)
+    try:
+        return load_seed_leads(ROOT)
+    except SynthesiserError:
+        pytest.skip(
+            "no LeadPipe checkout available; set WORKLANG_LEADPIPE_ROOT"
+        )
 
 
 def _walk(lp, lead: SeedLead, walk: int = 0) -> Trace:
@@ -178,7 +189,12 @@ def test_trace_identity_and_determinism(lp, leads):
 
 @pytest.fixture(scope="module")
 def anchors() -> list[Trace]:
-    return run_walkthrough_anchors(ROOT, 20261104)
+    try:
+        return run_walkthrough_anchors(ROOT, 20261104)
+    except SynthesiserError:
+        pytest.skip(
+            "no LeadPipe checkout available; set WORKLANG_LEADPIPE_ROOT"
+        )
 
 
 def test_anchor_family_shape(anchors, leads):
