@@ -1,0 +1,480 @@
+{
+  "bar": {
+    "bar_cleared": true,
+    "beats_ngram_on_composite": true,
+    "beats_ngram_on_family": true,
+    "mini_composite_exact_match": 0.253676,
+    "mini_family_accuracy": 0.851103,
+    "ngram_composite_exact_match": 0.205882,
+    "ngram_family_accuracy": 0.700368,
+    "rule": "DESIGN.md: if the n-gram wins, the results file says so and the mini does not ship as a model claim until it beats it or the corpus grows.",
+    "source": "results/baselines-v0.json (build step 4)"
+  },
+  "baselines": {
+    "majority": {
+      "composite_correct": 21,
+      "composite_exact_match": 0.038603,
+      "description": "Most frequent family and most frequent value per attribute stream, counted over the train split.",
+      "family_accuracy": 0.279412,
+      "per_stream_correct": {
+        "channel": 410,
+        "family": 152,
+        "latency_band": 156,
+        "outcome_class": 498,
+        "score_band": 203,
+        "stage": 235,
+        "tool": 365
+      },
+      "positions": 544,
+      "stream_accuracies": {
+        "channel": 0.753676,
+        "family": 0.279412,
+        "latency_band": 0.286765,
+        "outcome_class": 0.915441,
+        "score_band": 0.373162,
+        "stage": 0.431985,
+        "tool": 0.670956
+      }
+    },
+    "ngram_order2": {
+      "composite_correct": 112,
+      "composite_exact_match": 0.205882,
+      "description": "Order-2 n-gram over composite event symbols with backoff to order-1 and unigram, trained on the train split.",
+      "family_accuracy": 0.700368,
+      "per_stream_correct": {
+        "channel": 438,
+        "family": 381,
+        "latency_band": 146,
+        "outcome_class": 513,
+        "score_band": 422,
+        "stage": 406,
+        "tool": 409
+      },
+      "positions": 544,
+      "stream_accuracies": {
+        "channel": 0.805147,
+        "family": 0.700368,
+        "latency_band": 0.268382,
+        "outcome_class": 0.943015,
+        "score_band": 0.775735,
+        "stage": 0.746324,
+        "tool": 0.751838
+      }
+    }
+  },
+  "corpus": "v0",
+  "files": {
+    "test": "corpus-v0-test.jsonl",
+    "train": "corpus-v0-train.jsonl"
+  },
+  "model": {
+    "architecture": "Decoder-only transformer over the flat token stream (BOS, vertical token, 7 tokens per event); family head first, attribute heads conditioned on the family via its token embedding; loss is the sum of per-stream cross-entropies.",
+    "d_model": 256,
+    "embedding_rows": 128,
+    "max_events": 256,
+    "n_head": 8,
+    "n_layer": 6,
+    "name": "worklang-mini",
+    "parameter_count": 5246523,
+    "parameter_count_note": "Counted from the built module by count_parameters. DESIGN.md estimated 5 to 6M before the code existed."
+  },
+  "positions_scored": 544,
+  "protocol": "Next-event prediction at every position of every test trace (prefix = all prior events of the trace, including the empty prefix); baselines fitted on the train split only, scored on the test split only; ties broken by highest count, then vocabulary order.",
+  "reproducibility": {
+    "exact_match": true,
+    "max_abs_delta": 0.0,
+    "metric_deltas": {
+      "calibration:mean_group_total_variation": 0.0,
+      "calibration:pooled_total_variation": 0.0,
+      "composite_exact_match": 0.0,
+      "family_accuracy": 0.0,
+      "final_epoch_loss": 0.0,
+      "stream:channel": 0.0,
+      "stream:family": 0.0,
+      "stream:latency_band": 0.0,
+      "stream:outcome_class": 0.0,
+      "stream:score_band": 0.0,
+      "stream:stage": 0.0,
+      "stream:tool": 0.0
+    },
+    "runs_compared": 2,
+    "same_seed": true
+  },
+  "test_traces": 46,
+  "train_traces": 325,
+  "training": {
+    "batch_size": 32,
+    "device": "cpu",
+    "epochs": 48,
+    "lr": 0.003,
+    "runs": [
+      {
+        "composite_correct": 138,
+        "composite_exact_match": 0.253676,
+        "family_accuracy": 0.851103,
+        "futures_calibration": {
+          "groups": {
+            "leadpipe-demo:sofia-marino": {
+              "completed_samples": 256,
+              "empirical_outcomes": {
+                "dropped": 1,
+                "lost": 4,
+                "won": 3
+              },
+              "prefixes": 8,
+              "sampled_outcomes": {
+                "booked": 4,
+                "dropped": 8,
+                "lost": 244
+              },
+              "samples": 256,
+              "total_variation": 0.46875,
+              "traces": 8,
+              "truncated_samples": 0
+            },
+            "leadpipe-demo:tom-becker": {
+              "completed_samples": 256,
+              "empirical_outcomes": {
+                "dropped": 3,
+                "lost": 4,
+                "stalled": 1
+              },
+              "prefixes": 8,
+              "sampled_outcomes": {
+                "booked": 25,
+                "dropped": 20,
+                "lost": 173,
+                "stalled": 9,
+                "won": 29
+              },
+              "samples": 256,
+              "total_variation": 0.386719,
+              "traces": 8,
+              "truncated_samples": 0
+            },
+            "qualbench:dental/insurance-coverage-question": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "booked": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 191,
+                "stalled": 1
+              },
+              "samples": 192,
+              "total_variation": 0.005208,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:home-services/commercial-premises": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "booked": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 190,
+                "stalled": 2
+              },
+              "samples": 192,
+              "total_variation": 0.010417,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:home-services/landlord-tenant-authorisation": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "stalled": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 55,
+                "lost": 10,
+                "stalled": 127
+              },
+              "samples": 192,
+              "total_variation": 0.338542,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:real-estate/after-hours-inquiry": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "stalled": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 52,
+                "stalled": 140
+              },
+              "samples": 192,
+              "total_variation": 0.270833,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:real-estate/standard-inquiry": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "booked": 5,
+                "stalled": 1
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 189,
+                "stalled": 3
+              },
+              "samples": 192,
+              "total_variation": 0.151042,
+              "traces": 6,
+              "truncated_samples": 0
+            }
+          },
+          "max_new_events": 64,
+          "mean_group_total_variation": 0.233073,
+          "pooled": {
+            "completed_samples": 1472,
+            "empirical_outcomes": {
+              "booked": 17,
+              "dropped": 4,
+              "lost": 8,
+              "stalled": 14,
+              "won": 3
+            },
+            "sampled_outcomes": {
+              "booked": 706,
+              "dropped": 28,
+              "lost": 427,
+              "stalled": 282,
+              "won": 29
+            },
+            "truncated_samples": 0
+          },
+          "pooled_total_variation": 0.226223,
+          "protocol": "One prefix per test trace: all events except the terminal outcome event. Futures sampled per prefix, pooled per prefix group (corpus_v0.group_of); total variation distance over the five real outcome classes between the sampled outcome distribution and the empirical outcome distribution of the group's test traces. Futures reaching the generation cap without an outcome event are truncated: counted, and excluded from the sampled distribution.",
+          "samples_per_prefix": 32,
+          "seed": 20261104,
+          "temperature": 1.0
+        },
+        "per_stream_correct": {
+          "channel": 498,
+          "family": 463,
+          "latency_band": 187,
+          "outcome_class": 487,
+          "score_band": 518,
+          "stage": 439,
+          "tool": 474
+        },
+        "positions": 544,
+        "run": 1,
+        "seed": 20261104,
+        "stream_accuracies": {
+          "channel": 0.915441,
+          "family": 0.851103,
+          "latency_band": 0.34375,
+          "outcome_class": 0.895221,
+          "score_band": 0.952206,
+          "stage": 0.806985,
+          "tool": 0.871324
+        },
+        "training": {
+          "batch_size": 32,
+          "epochs": 48,
+          "final_epoch_loss": 1.809533,
+          "first_epoch_loss": 11.723494,
+          "lr": 0.003,
+          "seed": 20261104,
+          "threads": 4,
+          "train_traces": 325,
+          "weight_decay": 0.01
+        },
+        "wall_time_seconds": 2758.6
+      },
+      {
+        "composite_correct": 138,
+        "composite_exact_match": 0.253676,
+        "family_accuracy": 0.851103,
+        "futures_calibration": {
+          "groups": {
+            "leadpipe-demo:sofia-marino": {
+              "completed_samples": 256,
+              "empirical_outcomes": {
+                "dropped": 1,
+                "lost": 4,
+                "won": 3
+              },
+              "prefixes": 8,
+              "sampled_outcomes": {
+                "booked": 4,
+                "dropped": 8,
+                "lost": 244
+              },
+              "samples": 256,
+              "total_variation": 0.46875,
+              "traces": 8,
+              "truncated_samples": 0
+            },
+            "leadpipe-demo:tom-becker": {
+              "completed_samples": 256,
+              "empirical_outcomes": {
+                "dropped": 3,
+                "lost": 4,
+                "stalled": 1
+              },
+              "prefixes": 8,
+              "sampled_outcomes": {
+                "booked": 25,
+                "dropped": 20,
+                "lost": 173,
+                "stalled": 9,
+                "won": 29
+              },
+              "samples": 256,
+              "total_variation": 0.386719,
+              "traces": 8,
+              "truncated_samples": 0
+            },
+            "qualbench:dental/insurance-coverage-question": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "booked": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 191,
+                "stalled": 1
+              },
+              "samples": 192,
+              "total_variation": 0.005208,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:home-services/commercial-premises": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "booked": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 190,
+                "stalled": 2
+              },
+              "samples": 192,
+              "total_variation": 0.010417,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:home-services/landlord-tenant-authorisation": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "stalled": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 55,
+                "lost": 10,
+                "stalled": 127
+              },
+              "samples": 192,
+              "total_variation": 0.338542,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:real-estate/after-hours-inquiry": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "stalled": 6
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 52,
+                "stalled": 140
+              },
+              "samples": 192,
+              "total_variation": 0.270833,
+              "traces": 6,
+              "truncated_samples": 0
+            },
+            "qualbench:real-estate/standard-inquiry": {
+              "completed_samples": 192,
+              "empirical_outcomes": {
+                "booked": 5,
+                "stalled": 1
+              },
+              "prefixes": 6,
+              "sampled_outcomes": {
+                "booked": 189,
+                "stalled": 3
+              },
+              "samples": 192,
+              "total_variation": 0.151042,
+              "traces": 6,
+              "truncated_samples": 0
+            }
+          },
+          "max_new_events": 64,
+          "mean_group_total_variation": 0.233073,
+          "pooled": {
+            "completed_samples": 1472,
+            "empirical_outcomes": {
+              "booked": 17,
+              "dropped": 4,
+              "lost": 8,
+              "stalled": 14,
+              "won": 3
+            },
+            "sampled_outcomes": {
+              "booked": 706,
+              "dropped": 28,
+              "lost": 427,
+              "stalled": 282,
+              "won": 29
+            },
+            "truncated_samples": 0
+          },
+          "pooled_total_variation": 0.226223,
+          "protocol": "One prefix per test trace: all events except the terminal outcome event. Futures sampled per prefix, pooled per prefix group (corpus_v0.group_of); total variation distance over the five real outcome classes between the sampled outcome distribution and the empirical outcome distribution of the group's test traces. Futures reaching the generation cap without an outcome event are truncated: counted, and excluded from the sampled distribution.",
+          "samples_per_prefix": 32,
+          "seed": 20261104,
+          "temperature": 1.0
+        },
+        "per_stream_correct": {
+          "channel": 498,
+          "family": 463,
+          "latency_band": 187,
+          "outcome_class": 487,
+          "score_band": 518,
+          "stage": 439,
+          "tool": 474
+        },
+        "positions": 544,
+        "run": 2,
+        "seed": 20261104,
+        "stream_accuracies": {
+          "channel": 0.915441,
+          "family": 0.851103,
+          "latency_band": 0.34375,
+          "outcome_class": 0.895221,
+          "score_band": 0.952206,
+          "stage": 0.806985,
+          "tool": 0.871324
+        },
+        "training": {
+          "batch_size": 32,
+          "epochs": 48,
+          "final_epoch_loss": 1.809533,
+          "first_epoch_loss": 11.723494,
+          "lr": 0.003,
+          "seed": 20261104,
+          "threads": 4,
+          "train_traces": 325,
+          "weight_decay": 0.01
+        },
+        "wall_time_seconds": 2415.8
+      }
+    ],
+    "seed": 20261104,
+    "threads": 4,
+    "torch_version": "2.15.0+cpu"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "baselines": {
+    "majority": {
+      "composite_correct": 21,
+      "composite_exact_match": 0.038603,
+      "description": "Most frequent family and most frequent value per attribute stream, counted over the train split.",
+      "family_accuracy": 0.279412,
+      "per_stream_correct": {
+        "channel": 410,
+        "family": 152,
+        "latency_band": 156,
+        "outcome_class": 498,
+        "score_band": 203,
+        "stage": 235,
+        "tool": 365
+      },
+      "positions": 544,
+      "stream_accuracies": {
+        "channel": 0.753676,
+        "family": 0.279412,
+        "latency_band": 0.286765,
+        "outcome_class": 0.915441,
+        "score_band": 0.373162,
+        "stage": 0.431985,
+        "tool": 0.670956
+      }
+    },
+    "ngram_order2": {
+      "composite_correct": 112,
+      "composite_exact_match": 0.205882,
+      "description": "Order-2 n-gram over composite event symbols with backoff to order-1 and unigram, trained on the train split.",
+      "family_accuracy": 0.700368,
+      "per_stream_correct": {
+        "channel": 438,
+        "family": 381,
+        "latency_band": 146,
+        "outcome_class": 513,
+        "score_band": 422,
+        "stage": 406,
+        "tool": 409
+      },
+      "positions": 544,
+      "stream_accuracies": {
+        "channel": 0.805147,
+        "family": 0.700368,
+        "latency_band": 0.268382,
+        "outcome_class": 0.943015,
+        "score_band": 0.775735,
+        "stage": 0.746324,
+        "tool": 0.751838
+      }
+    }
+  },
+  "corpus": "v0",
+  "files": {
+    "test": "corpus-v0-test.jsonl",
+    "train": "corpus-v0-train.jsonl"
+  },
+  "positions_scored": 544,
+  "protocol": "Next-event prediction at every position of every test trace (prefix = all prior events of the trace, including the empty prefix); baselines fitted on the train split only, scored on the test split only; ties broken by highest count, then vocabulary order.",
+  "test_traces": 46,
+  "train_traces": 325
+}
