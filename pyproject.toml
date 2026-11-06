@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "worklang"
+version = "0.1.0"
+description = "WorkLang: a small foundation model for the language of agent workflows. v0: schema, tokenizer, corpus, baselines, mini, futures demo."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+# Step 5 only: the mini model. Install the CPU build
+# (pip install torch --index-url https://download.pytorch.org/whl/cpu);
+# the schema, tokenizer, corpus, and baselines stay dependency-free.
+model = ["torch>=2"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+worklang = ["vocab.json"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
