@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkLang futures demo: the after-hours missed lead</title>
+<style>
+  :root {
+    --ink: #1a1d21;
+    --muted: #5a6270;
+    --accent: #0f766e;
+    --warn-bg: #fdf3e3;
+    --warn-border: #b45309;
+    --panel-border: #d4d9e0;
+    --bar-bg: #e6ebef;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto;
+    max-width: 1080px;
+    padding: 2.5rem 1.25rem 4rem;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.55;
+    background: #fbfcfd;
+  }
+  h1 { font-size: 2.4rem; line-height: 1.15; margin: 0 0 0.75rem; }
+  h2 { font-size: 1.45rem; margin: 2.2rem 0 0.6rem; }
+  h3 { font-size: 1.1rem; margin: 1.4rem 0 0.4rem; }
+  .lead { font-size: 1.3rem; margin: 0 0 1.5rem; }
+  /* The caveat carries the same visual weight as the headline
+     claims on purpose: same size class as the lead paragraph,
+     boxed and tinted, placed before any number on the page. */
+  .caveat {
+    font-size: 1.3rem;
+    font-weight: bold;
+    background: var(--warn-bg);
+    border: 3px solid var(--warn-border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0 0 2rem;
+  }
+  .meta { color: var(--muted); font-size: 1rem; }
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+  @media (max-width: 760px) {
+    .panels { grid-template-columns: 1fr; }
+  }
+  .panel {
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem 1.25rem;
+    background: #ffffff;
+  }
+  .panel h3 { margin-top: 0; font-size: 1.25rem; }
+  .bar-row { margin: 0.55rem 0; }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.05rem;
+  }
+  .bar-track {
+    background: var(--bar-bg);
+    border-radius: 4px;
+    height: 1.1rem;
+    overflow: hidden;
+  }
+  .bar-fill { background: var(--accent); height: 100%; }
+  .events {
+    font-family: "Courier New", monospace;
+    font-size: 0.86rem;
+    background: #f4f6f8;
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .example { margin-bottom: 1rem; }
+  .example .outcome-line { font-weight: bold; margin-bottom: 0.3rem; }
+  footer {
+    margin-top: 3rem;
+    border-top: 1px solid var(--panel-border);
+    padding-top: 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">The after-hours missed lead</h1>
+  <p class="lead" id="story"></p>
+  <div class="caveat" id="caveat" role="note"></div>
+  <p class="meta" id="config"></p>
+</header>
+
+<section>
+  <h2>The two prefixes</h2>
+  <p id="prefix-note"></p>
+  <div class="panels" id="prefix-panels"></div>
+</section>
+
+<section>
+  <h2>Sampled outcome distributions, side by side</h2>
+  <p>
+    Each panel aggregates the futures sampled from its prefix. A
+    future runs one sampled event at a time until it reaches its
+    outcome event or the generation cap. Shares are percentages of
+    completed sampled futures; futures that hit the cap without an
+    outcome are counted as truncated and excluded from the shares.
+  </p>
+  <div class="panels" id="distribution-panels"></div>
+</section>
+
+<section>
+  <h2>Sample futures, written out</h2>
+  <p>
+    Three sampled trajectories per prefix, decoded back into plain
+    event lines. The prefix events come first; everything after them
+    is one sampled future, exactly as the model produced it.
+  </p>
+  <div class="panels" id="example-panels"></div>
+</section>
+
+<footer id="method"></footer>
+
+<script type="application/json" id="demo-data">/*__WORKLANG_DEMO_DATA__*/</script>
+<script>
+"use strict";
+var data = JSON.parse(document.getElementById("demo-data").textContent);
+var ORDER = ["booked", "stalled", "dropped", "won", "lost"];
+
+function el(tag, text) {
+  var node = document.createElement(tag);
+  if (text !== undefined) { node.textContent = text; }
+  return node;
+}
+
+function eventLine(event) {
+  var line = event.family +
+    " | channel " + event.channel +
+    " | score " + event.score_band +
+    " | latency " + event.latency_band +
+    " | stage " + event.stage +
+    " | tool " + event.tool;
+  if (event.family === "outcome") {
+    line += " | outcome " + event.outcome_class;
+  }
+  return line;
+}
+
+document.getElementById("title").textContent = data.scenario.title;
+document.getElementById("story").textContent = data.scenario.story;
+document.getElementById("caveat").textContent = data.caveat;
+document.getElementById("prefix-note").textContent =
+  data.scenario.prefix_note;
+document.getElementById("config").textContent =
+  "Sampling configuration, stated rather than hidden: " +
+  data.sampling.samples_per_prefix + " futures sampled per prefix " +
+  "at temperature " + data.sampling.temperature +
+  ", generation cap " + data.sampling.max_new_events +
+  " new events per future, from " + data.model.name + " (" +
+  data.model.parameter_count.toLocaleString("en-US") +
+  " parameters). Precomputed by scripts/sample_futures.py; this " +
+  "page runs no model and makes no requests.";
+
+var prefixPanels = document.getElementById("prefix-panels");
+var distPanels = document.getElementById("distribution-panels");
+var examplePanels = document.getElementById("example-panels");
+
+data.prefixes.forEach(function (prefix) {
+  var panel = el("div");
+  panel.className = "panel";
+  panel.appendChild(el("h3", prefix.label));
+  panel.appendChild(el("p", prefix.description));
+  var lines = el("div");
+  lines.className = "events";
+  lines.textContent = prefix.plain_lines.join("\n");
+  panel.appendChild(lines);
+  var raw = el("div");
+  raw.className = "events";
+  raw.textContent = prefix.events.map(eventLine).join("\n");
+  panel.appendChild(raw);
+  prefixPanels.appendChild(panel);
+
+  var dist = el("div");
+  dist.className = "panel";
+  dist.appendChild(el("h3", prefix.label));
+  ORDER.forEach(function (name) {
+    var entry = prefix.distribution.classes[name];
+    if (!entry || entry.count === 0) { return; }
+    var row = el("div");
+    row.className = "bar-row";
+    var label = el("div");
+    label.className = "bar-label";
+    label.appendChild(el("span", name));
+    label.appendChild(el("span",
+      entry.share_percent.toFixed(1) + "% (" + entry.count +
+      " of " + prefix.distribution.completed + ")"));
+    row.appendChild(label);
+    var track = el("div");
+    track.className = "bar-track";
+    var fill = el("div");
+    fill.className = "bar-fill";
+    fill.style.width = entry.share_percent + "%";
+    track.appendChild(fill);
+    row.appendChild(track);
+    dist.appendChild(row);
+  });
+  dist.appendChild(el("p",
+    prefix.samples + " futures sampled, " +
+    prefix.distribution.completed + " completed, " +
+    prefix.truncated + " truncated at the generation cap."));
+  distPanels.appendChild(dist);
+
+  var examples = el("div");
+  examples.className = "panel";
+  examples.appendChild(el("h3", prefix.label));
+  prefix.examples.forEach(function (example, index) {
+    var block = el("div");
+    block.className = "example";
+    var outcomeLine = el("div",
+      "Sample " + (index + 1) + ": outcome " + example.outcome);
+    outcomeLine.className = "outcome-line";
+    block.appendChild(outcomeLine);
+    var linesBox = el("div");
+    linesBox.className = "events";
+    linesBox.textContent = example.events.map(eventLine).join("\n");
+    block.appendChild(linesBox);
+    examples.appendChild(block);
+  });
+  examplePanels.appendChild(examples);
+});
+
+document.getElementById("method").textContent =
+  "Method and provenance: the model was trained on corpus v0 " +
+  "(corpus/v0/CORPUS_CARD.md) and evaluated in " +
+  "results/mini-v0.json; see MODEL_CARD.md for the model and " +
+  "TECHNICAL_REPORT.md for the full v0 story. The standing caveat " +
+  "bears repeating at the end as at the start: trained on " +
+  "synthetic data from our own simulators, shares are model " +
+  "behaviour, not measured business statistics.";
+</script>
+</body>
+</html>
