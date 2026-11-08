@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="400" viewBox="0 0 1240 400" role="img" aria-label="WorkLang workflow: a trace prefix is tokenised, the mini predicts the next event, futures are sampled, and outcome shares are reported">
+<rect width="1240" height="400" rx="18" fill="#0B1F3A"/>
+<text x="48" y="52" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#EAF6FF">The futures workflow</text>
+<text x="48" y="80" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" fill="#9DB8D2">How WorkLang answers a question about a live pipeline: sample what happens next, many times, and count.</text>
+<rect x="48" y="120" width="208" height="170" rx="12" fill="#12294D" stroke="#2A5A8F" stroke-width="1.5"/>
+<text x="66" y="156" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16.5" font-weight="700" fill="#00CEFF">1 · PREFIX</text>
+<text x="66" y="184" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">The events so far in a</text>
+<text x="66" y="206" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">live pipeline: a lead has</text>
+<text x="66" y="228" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">messaged, been scored,</text>
+<text x="66" y="250" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">and gone quiet.</text>
+<line x1="256" y1="205.0" x2="275" y2="205.0" stroke="#00CEFF" stroke-width="2.5"/>
+<polygon points="275,199.0 286,205.0 275,211.0" fill="#00CEFF"/>
+<rect x="284" y="120" width="208" height="170" rx="12" fill="#12294D" stroke="#2A5A8F" stroke-width="1.5"/>
+<text x="302" y="156" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16.5" font-weight="700" fill="#EAF6FF">2 · TOKENISE</text>
+<text x="302" y="184" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">Each event becomes 7</text>
+<text x="302" y="206" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">tokens from the fixed</text>
+<text x="302" y="228" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">69 token vocabulary.</text>
+<text x="302" y="250" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">Decode is exact.</text>
+<line x1="492" y1="205.0" x2="511" y2="205.0" stroke="#00CEFF" stroke-width="2.5"/>
+<polygon points="511,199.0 522,205.0 511,211.0" fill="#00CEFF"/>
+<rect x="520" y="120" width="208" height="170" rx="12" fill="#12294D" stroke="#00CEFF" stroke-width="2"/>
+<text x="538" y="156" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16.5" font-weight="700" fill="#00CEFF">3 · PREDICT</text>
+<text x="538" y="184" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">worklang-mini predicts</text>
+<text x="538" y="206" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">the next event: family</text>
+<text x="538" y="228" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">first, then the six</text>
+<text x="538" y="250" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">attribute streams.</text>
+<line x1="728" y1="205.0" x2="747" y2="205.0" stroke="#00CEFF" stroke-width="2.5"/>
+<polygon points="747,199.0 758,205.0 747,211.0" fill="#00CEFF"/>
+<rect x="756" y="120" width="208" height="170" rx="12" fill="#12294D" stroke="#2A5A8F" stroke-width="1.5"/>
+<text x="774" y="156" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16.5" font-weight="700" fill="#EAF6FF">4 · SAMPLE</text>
+<text x="774" y="184" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">Repeat the rollout at</text>
+<text x="774" y="206" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">temperature 1.0, up to</text>
+<text x="774" y="228" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">64 new events, until an</text>
+<text x="774" y="250" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">outcome event lands.</text>
+<line x1="964" y1="205.0" x2="983" y2="205.0" stroke="#00CEFF" stroke-width="2.5"/>
+<polygon points="983,199.0 994,205.0 983,211.0" fill="#00CEFF"/>
+<rect x="992" y="120" width="208" height="170" rx="12" fill="#12294D" stroke="#2A5A8F" stroke-width="1.5"/>
+<text x="1010" y="156" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="16.5" font-weight="700" fill="#00CEFF">5 · COUNT</text>
+<text x="1010" y="184" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">Outcome shares across</text>
+<text x="1010" y="206" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">the samples: books, stalls,</text>
+<text x="1010" y="228" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">drops. Shown as model</text>
+<text x="1010" y="250" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#9DB8D2">behaviour, not a forecast.</text>
+<text x="48" y="370" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">Calibration against held-out traces is measured, not assumed: pooled total variation 0.2262 on corpus v0 (see MODEL_CARD.md).</text>
+</svg>

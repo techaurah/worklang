@@ -1,0 +1,31 @@
+worklang/
+|-- src/worklang/            the package
+|   |-- vocab.py             enumerated vocabulary, the source of truth (69 tokens, ids reserved to 128)
+|   |-- vocab.json           generated vocabulary artefact (scripts/build_vocab.py, do not hand edit)
+|   |-- schema.py            trace and event dataclasses with validation, JSONL conversion
+|   |-- tokenizer.py         deterministic encode/decode; one event = 7 tokens; BOS, vertical, events, EOS
+|   |-- qualbench_emitter.py corpus source A emitter, through the QualBench Python API
+|   |-- corpus_a.py          corpus source A assembly
+|   |-- leadpipe_synthesiser.py  corpus source B synthesiser, over LeadPipe transitions and the demo walkthrough
+|   |-- corpus_b.py          corpus source B assembly
+|   |-- corpus_v0.py         frozen merge of sources A and B, with split verification
+|   |-- baselines.py         majority constant and order-2 n-gram baselines
+|   |-- evaluation.py        eval harness: every system scored on the same positions
+|   |-- mini.py              worklang-mini: model, training, scoring, futures calibration
+|   |-- demo.py              futures demo: authored prefixes, sampling config, page renderer
+|   `-- errors.py            the closed error set
+|-- corpus/
+|   |-- source-a/            generated traces from QualBench runs, with CORPUS_CARD.md
+|   |-- source-b/            generated traces from LeadPipe lifecycles, with CORPUS_CARD.md
+|   `-- v0/                  frozen corpus v0: 409 traces, 4,637 events, 33,686 tokens (100 percent synthetic)
+|-- scripts/
+|   |-- build_vocab.py       regenerate src/worklang/vocab.json
+|   |-- build_corpus_a.py    regenerate corpus/source-a
+|   |-- build_corpus_b.py    regenerate corpus/source-b
+|   |-- build_corpus_v0.py   regenerate the frozen corpus/v0 merge
+|   |-- evaluate_baselines.py  score the baselines, writes results/baselines-v0.json
+|   |-- train_mini.py        train and score worklang-mini, writes results/mini-v0.json
+|   `-- sample_futures.py    produce demo/demo-data.json from the trained weights
+|-- results/                 baselines-v0.json and mini-v0.json: the numbers the docs quote
+|-- demo/                    index.html (built page), index.template.html, demo-data.json, worklang-mini-v0.pt weights
+`-- tests/                   12 test modules: vocab, schema, tokenizer, emitters, corpora, baselines, evaluation, mini, demo

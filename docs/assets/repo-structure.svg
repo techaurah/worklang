@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="588" viewBox="0 0 1180 588" role="img" aria-label="WorkLang repository structure">
+<rect width="1180" height="588" rx="18" fill="#0B1F3A"/>
+<text x="44" y="50" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="22" font-weight="700" fill="#EAF6FF">Repository structure</text>
+<text x="44" y="86" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="700" fill="#00CEFF">worklang/</text>
+<text x="44" y="116" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">├─ src/worklang/</text>
+<text x="490" y="116" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">the package</text>
+<text x="44" y="146" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ vocab.py + vocab.json</text>
+<text x="490" y="146" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">69 token vocabulary: source of truth, plus the generated artefact</text>
+<text x="44" y="176" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ schema.py</text>
+<text x="490" y="176" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">trace and event dataclasses with validation</text>
+<text x="44" y="206" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ tokenizer.py</text>
+<text x="490" y="206" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">deterministic encode and decode, 7 tokens per event</text>
+<text x="44" y="236" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ corpus_a.py + qualbench_emitter.py</text>
+<text x="490" y="236" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">corpus source A, from QualBench runs</text>
+<text x="44" y="266" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ corpus_b.py + leadpipe_synthesiser.py</text>
+<text x="490" y="266" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">corpus source B, from LeadPipe lifecycles</text>
+<text x="44" y="296" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ corpus_v0.py</text>
+<text x="490" y="296" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">the frozen merge, with split verification</text>
+<text x="44" y="326" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ baselines.py + evaluation.py</text>
+<text x="490" y="326" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">majority and n-gram baselines, and the eval harness</text>
+<text x="44" y="356" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   ├─ mini.py</text>
+<text x="490" y="356" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">worklang-mini: training, scoring, futures sampling</text>
+<text x="44" y="386" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">│   └─ demo.py</text>
+<text x="490" y="386" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">futures demo: prefixes, sampling config, page renderer</text>
+<text x="44" y="416" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">├─ corpus/</text>
+<text x="490" y="416" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">source-a, source-b, and the frozen v0: 409 synthetic traces</text>
+<text x="44" y="446" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">├─ scripts/</text>
+<text x="490" y="446" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">build vocab and corpora, evaluate, train, sample futures</text>
+<text x="44" y="476" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">├─ results/</text>
+<text x="490" y="476" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">baselines-v0.json and mini-v0.json, the quoted numbers</text>
+<text x="44" y="506" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">├─ demo/</text>
+<text x="490" y="506" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">static futures demo page, its data, and the mini weights</text>
+<text x="44" y="536" font-family="Consolas,Menlo,'DejaVu Sans Mono',monospace" font-size="15.5" font-weight="400" fill="#EAF6FF">└─ tests/</text>
+<text x="490" y="536" font-family="'Segoe UI',Helvetica,Arial,sans-serif" font-size="14" fill="#9DB8D2">12 test modules mirroring the package</text>
+</svg>
